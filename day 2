@@ -1,0 +1,303 @@
+mysql> create database datab1;
+Query OK, 1 row affected (0.14 sec)
+
+mysql> use datab1;
+Database changed
+mysql> create Employee table()
+    -> ( EmpID INT PRIMARY KEY, Name VARCHAR(50), Department VARCHAR(50), Gender VARCHAR(10), Salary DECIMAL(10, 2), Age INT, Experience INT );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Employee table()
+( EmpID INT PRIMARY KEY, Name VARCHAR(50), Department VARCHAR(5' at line 1
+mysql> CREATE TABLE Employee ( EmpID INT PRIMARY KEY, Name VARCHAR(50), Department VARCHAR(50), Gender VARCHAR(10), Salary DECIMAL(10, 2), Age INT, Experience INT );
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> INSERT INTO Employee (EmpID, Name, Department, Gender, Salary, Age, Experience) VALUES (1, 'Alice', 'HR', 'Female', 50000, 28, 3), (2, 'Bob', 'Finance', 'Male', 60000, 32, 5), (3, 'Charlie', 'IT', 'Male', 70000, 30, 6), (4, 'David', 'HR', 'Male', 48000, 45, 20), (5, 'Eva', 'IT', 'Female', 72000, 29, 4), (6, 'Frank', 'Finance', 'Male', 58000, 35, 8), (7, 'Grace', 'Marketing', 'Female', 50000, 27, 2), (8, 'Hannah', 'IT', 'Female', 75000, 31, 7), (9, 'Ivy', 'Finance', 'Female', 62000, 26, 3), (10, 'Jack', 'Marketing', 'Male', 52000, 38, 10), (11, 'Kiran', 'IT', 'Male', 68000, 33, 9), (12, 'Lily', 'HR', 'Female', 55000, 40, 15), (13, 'Mohan', 'Finance', 'Male', 61000, 29, 4), (14, 'Nina', 'Marketing', 'Female', 53000, 36, 11), (15, 'Oscar', 'IT', 'Male', 71000, 34, 10);
+Query OK, 15 rows affected (0.09 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> SELECT Department, SUM(Salary) AS TotalSalary
+    -> FROM Employee
+    -> GROUP BY Department;
++------------+-------------+
+| Department | TotalSalary |
++------------+-------------+
+| HR         |   153000.00 |
+| Finance    |   241000.00 |
+| IT         |   356000.00 |
+| Marketing  |   155000.00 |
++------------+-------------+
+4 rows in set (0.04 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING SUM(Salary) > 200000;
++------------+
+| Department |
++------------+
+| Finance    |
+| IT         |
++------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT Department, COUNT(*) AS EmployeeCount
+    -> FROM Employee
+    -> GROUP BY Department;
++------------+---------------+
+| Department | EmployeeCount |
++------------+---------------+
+| HR         |             3 |
+| Finance    |             4 |
+| IT         |             5 |
+| Marketing  |             3 |
++------------+---------------+
+4 rows in set (0.04 sec)
+
+mysql>
+mysql>
+mysql> SELECT Department, COUNT(*) AS EmployeeCount
+    -> FROM Employee
+    -> GROUP BY Department;
++------------+---------------+
+| Department | EmployeeCount |
++------------+---------------+
+| HR         |             3 |
+| Finance    |             4 |
+| IT         |             5 |
+| Marketing  |             3 |
++------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING COUNT(*) > 3;
++------------+
+| Department |
++------------+
+| Finance    |
+| IT         |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Gender, COUNT(*) AS GenderCount
+    -> FROM Employee
+    -> GROUP BY Gender
+    -> HAVING COUNT(*) > 5;
++--------+-------------+
+| Gender | GenderCount |
++--------+-------------+
+| Female |           7 |
+| Male   |           8 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING AVG(Salary) > 60000;
++------------+
+| Department |
++------------+
+| Finance    |
+| IT         |
++------------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT Department, Gender, COUNT(*) AS Count
+    -> FROM Employee
+    -> GROUP BY Department, Gender;
++------------+--------+-------+
+| Department | Gender | Count |
++------------+--------+-------+
+| HR         | Female |     2 |
+| Finance    | Male   |     3 |
+| IT         | Male   |     3 |
+| HR         | Male   |     1 |
+| IT         | Female |     2 |
+| Marketing  | Female |     2 |
+| Finance    | Female |     1 |
+| Marketing  | Male   |     1 |
++------------+--------+-------+
+8 rows in set (0.03 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING AVG(Experience) > 7;
++------------+
+| Department |
++------------+
+| HR         |
+| IT         |
+| Marketing  |
++------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING MAX(Salary) > 70000;
++------------+
+| Department |
++------------+
+| IT         |
++------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING MAX(Salary) > 70000;
++------------+
+| Department |
++------------+
+| IT         |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Department, AVG(Age) AS AvgAge
+    -> FROM Employee
+    -> GROUP BY Department;
++------------+---------+
+| Department | AvgAge  |
++------------+---------+
+| HR         | 37.6667 |
+| Finance    | 30.5000 |
+| IT         | 31.4000 |
+| Marketing  | 33.6667 |
++------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> WHERE Gender = 'Female'
+    -> GROUP BY Department
+    -> HAVING AVG(Salary) > 60000;
++------------+
+| Department |
++------------+
+| IT         |
+| Finance    |
++------------+
+2 rows in set (0.04 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING SUM(Experience) > 20;
++------------+
+| Department |
++------------+
+| HR         |
+| IT         |
+| Marketing  |
++------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Department, Gender, AVG(Experience) AS AvgExperience
+    -> FROM Employee
+    -> GROUP BY Department, Gender;
++------------+--------+---------------+
+| Department | Gender | AvgExperience |
++------------+--------+---------------+
+| HR         | Female |        9.0000 |
+| Finance    | Male   |        5.6667 |
+| IT         | Male   |        8.3333 |
+| HR         | Male   |       20.0000 |
+| IT         | Female |        5.5000 |
+| Marketing  | Female |        6.5000 |
+| Finance    | Female |        3.0000 |
+| Marketing  | Male   |       10.0000 |
++------------+--------+---------------+
+8 rows in set (0.01 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING AVG(Age) < 30;
+Empty set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> WHERE Gender = 'Female'
+    -> GROUP BY Department
+    -> HAVING COUNT(*) > 1;
++------------+
+| Department |
++------------+
+| HR         |
+| IT         |
+| Marketing  |
++------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> WHERE Gender = 'Female'
+    -> GROUP BY Department
+    -> HAVING COUNT(*) > 1;
++------------+
+| Department |
++------------+
+| HR         |
+| IT         |
+| Marketing  |
++------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Department, AVG(Experience) AS AvgExperience
+    -> FROM Employee
+    -> GROUP BY Department
+    -> ORDER BY AvgExperience DESC
+    -> LIMIT 1;
++------------+---------------+
+| Department | AvgExperience |
++------------+---------------+
+| HR         |       12.6667 |
++------------+---------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT Department, COUNT(*) AS Under35Count
+    -> FROM Employee
+    -> WHERE Age < 35
+    -> GROUP BY Department;
++------------+--------------+
+| Department | Under35Count |
++------------+--------------+
+| HR         |            1 |
+| Finance    |            3 |
+| IT         |            5 |
+| Marketing  |            1 |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Department, SUM(Salary) AS TotalSalary
+    -> FROM Employee
+    -> GROUP BY Department
+    -> ORDER BY TotalSalary DESC
+    -> LIMIT 3;
++------------+-------------+
+| Department | TotalSalary |
++------------+-------------+
+| IT         |   356000.00 |
+| Finance    |   241000.00 |
+| Marketing  |   155000.00 |
++------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT Department
+    -> FROM Employee
+    -> WHERE Salary < 55000;
++------------+
+| Department |
++------------+
+| HR         |
+| Marketing  |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Department
+    -> FROM Employee
+    -> GROUP BY Department
+    -> HAVING MIN(Experience) > 5;
+Empty set (0.00 sec) 
